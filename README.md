@@ -1,4 +1,7 @@
 # Transformer: Decoder Implementation
+
+[By Manpreet Singh](https://github.com/badlogicmanpreet/gpt/tree/main)
+
 [<p align="center">
  <img src="images/transformer_exp.png" width="600"/></p>](images/transformer_exp.png)
 
