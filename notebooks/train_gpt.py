@@ -19,6 +19,7 @@ class CausalSelfAttention(nn.Module):
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
         # output projection
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
+        self.c_proj.GPT_SCALE_UNIT = 1
         # regularization
         self.n_head = config.n_head
         self.n_embd = config.n_embd
@@ -74,6 +75,7 @@ class MLP(nn.Module):
         self.c_fc = nn.Linear(config.n_embd, 4 * config.n_embd)
         self.gelu = nn.GELU(approximate="tanh")
         self.c_proj = nn.Linear(4 * config.n_embd, config.n_embd)
+        self.c_proj.GPT_SCALE_UNIT = 1
         
     def forward(self, x):
         x = self.c_fc(x)
@@ -140,8 +142,28 @@ class GPT(nn.Module):
         ))
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
 
+        # weight sharing scheme
+        self.transformer.wte.weight = self.lm_head.weight
 
-    def forward(self, idx):
+        # iterate all the above modules and initialize their weights
+        # initialize the weights (use the code - https://github.com/openai/gpt-2/blob/master/src/model.py)
+        self.apply(self._init_weights)
+
+    # initialize the weights, taken from the original gpt2 model
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear): # initialize linear layers
+            std = 0.02
+            # GPT_SCALE_UNIT is a custom attribute, added as a flag, if you see, it is added both to attn and mlp. These both have
+            # the residual pathways who's std need to be scled down. Note: 2* is because of the two residual pathways.
+            if hasattr(module, 'GPT_SCALE_UNIT'):
+                std *= (2 * self.config.n_layer) ** -0.5 # scale by the number of layers (scale down the std)
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02) 
+            if module.bias is not None:
+                torch.nn.init.zeros_(module.bias)
+        if isinstance(module, nn.Embedding): # initialize embedding layers
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+            
+    def forward(self, idx, targets=None):
         B, T = idx.size() # batch size, sequence length
         assert T <= self.config.block_size, "Cannot forward, model block size is exhausted"
         # forward the token and position embeddings
@@ -155,7 +177,12 @@ class GPT(nn.Module):
         # forward the final layer normalization and the linear layer
         x = self.transformer.ln_f(x)
         logits = self.lm_head(x) # (B, T, vocab_size)
-        return logits
+        loss = None
+        if targets is not None:
+            # cross entropy loss doesnt like the 3 dim (B, T, vocab_size) logits, lets flatten them to (B*T, vocab_size)
+            # also the target needs to be of shape (B*T), not (B, T)
+            loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1)) # cross entropy loss
+        return logits, loss
 
 
     @classmethod
@@ -208,27 +235,117 @@ class GPT(nn.Module):
 
         return model
     
+# --------------------------------------------  -------------------------------------------- #
+import tiktoken
+
+class DataLoaderLite:
+    def __init__(self, B, T):
+        self.B = B
+        self.T = T
+
+        # at init loads tokens from disk and store them in memory
+        with open('/Users/manpreet.singh/git/gpt/dataset/input.txt', 'r') as f:
+            text = f.read()
+        enc = tiktoken.get_encoding('gpt2')
+        tokens = enc.encode(text)
+        self.tokens = torch.tensor(tokens) # (B, T)
+        print(f"loaded {len(self.tokens)} tokens")
+        print(f"1 epoch = {len(self.tokens) // (B * T)} batches")
+
+        # state
+        self.current_position = 0
+
+    def next_batch(self):
+        B, T = self.B, self.T
+        buf = self.tokens[self.current_position:self.current_position + B * T + 1] # (B, T)
+        x = buf[:-1].view(B, T) # input
+        y = buf[1:].view(B, T) # output
+        self.current_position += B * T # move the position
+        # if loading the next batch will go out of bounds, reset the position
+        if self.current_position + B * T + 1 > len(self.tokens):
+            self.current_position = 0
+        return x, y
 
 # --------------------------------------------  -------------------------------------------- #
+# attempt to autodetect the device
+device = "cpu"
+if torch.cuda.is_available():
+    device = "cuda"
+elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available(): # for apple mps
+    device = "mps"
+print(f"using device: {device}...")
+# device = "cpu" # for now, we will use CPU
+
+torch.manual_seed(1337) # set the seed for reproducibility
+if torch.cuda.is_available():
+    torch.cuda.manual_seed(1337) # set the seed for reproducibility on GPU
+
+'''
+# get a data batch
+import tiktoken
+enc = tiktoken.get_encoding('gpt2')
+with open('/Users/manpreet.singh/git/gpt/dataset/input.txt', 'r') as f:
+    text = f.read()
+text = text[:1000] # only the first 1000 characters
+tokens = enc.encode(text)
+B, T = 4, 32 # batch size, sequence length
+buf = torch.tensor(tokens[:B*T + 1]) # (B, T)
+# you cannot move buf in stateful manner to gpu, instead for a tensor you will get a pointer to the tensor placed on the GPU
+buf = buf.to(device) # move the tensor to the GPU on Cloudbox
+x = buf[:-1].view(B, T) # input
+y = buf[1:].view(B, T) # output
+'''
+
+# get a data batch
+train_loader = DataLoaderLite(B=4, T=32)
+
+# get logits
+model = GPT(GPTConfig()) # 124M
+model.to(device) # move the model to the GPU on Cloudbox
+# logits, loss = model(x, y) # (B, T, vocab_size)
+
+# optimize
+# you will see for single batch, loss starts with 10.5, and then decreases to 0.002. Perfectly overfitting the single batch :)
+# https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf   
+optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4) # AdamW optimizer (fixes a bug in Adam)
+for i in range(50):
+    x, y = train_loader.next_batch() # get the next batch
+    x, y = x.to(device), y.to(device) # move to GPU
+    optimizer.zero_grad() # reset the gradients
+    logits, loss = model(x, y) # forward pass
+    import code; code.interact(local=locals()) # drop into an interactive shell
+    loss.backward() # backward pass
+    optimizer.step() # update the weights
+    print(f"step: {i}, loss: {loss.item()}") # loss is a scalar tensor, it is shipped from gpu to cpu (float), and printed
+    
+
+# remember that at initialization, the probability of each voc at the output should be uniform, i.e. 1/vocab_size. Remember that we dont
+# want any vocabulary to be favored at the start, we want the model to learn the distribution of the vocabulary.
+# refer: loss_at_init.png
+
+print(loss) # 
+import sys; sys.exit(0)
+
 num_return_sequences = 5
 max_length = 30
 
 # model = GPT.from_pretrained('gpt2') # 124M 
 model = GPT(GPTConfig()) # 124M
 model.eval() # set to eval mode, model is not in training, we will just be using it for inference
-#model.to('cuda') # move the model to the GPU on Cloudbox
+model.to(device) # move the model to the GPU on Cloudbox
 
 # prefix tokens
 import tiktoken
 enc = tiktoken.get_encoding('gpt2')
 tokens = enc.encode("Hello, I'm a language model,")
 tokens = torch.tensor(tokens, dtype=torch.long) # convert to tensor (8,)
-x = tokens.unsqueeze(0).repeat(num_return_sequences, 1) # repeat for number of sequences (5, 8) (B, T)
-#x = tokens.to('cuda') # move to GPU
+tokens = tokens.unsqueeze(0).repeat(num_return_sequences, 1) # repeat for number of sequences (5, 8) (B, T)
+x = tokens.to(device) # move to GPU
 
 # generate! right now x is (B, T) where B is the number of sequences to generate (5, 8)
 torch.manual_seed(42)
 torch.cuda.manual_seed(42)
+print(x.size())
 while x.size(1) < max_length:
     # forward the model to get the logits
     with torch.no_grad():
