@@ -306,8 +306,18 @@ model.to(device) # move the model to the GPU on Cloudbox
 
 # optimize
 # you will see for single batch, loss starts with 10.5, and then decreases to 0.002. Perfectly overfitting the single batch :)
-# https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf   
-optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4) # AdamW optimizer (fixes a bug in Adam)
+# https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf
+# FP32: 19.5 TFLOPS, FP16: 156 TFLOPS, TF32: 312 TFLOPS, meaning as the float precision decreases, the performance increases i.e. 
+# the T FLOPS increases (trillion floating point operations a.k.a tera flops).
+# Floating point operations are important for training as it allows the distribution of values to be what we want, wehereas INT
+# operations are very fast like INT8 (TFLOPS = 624) and equally spaced, so are not used for training, they are used for inference.
+# Smaller the number of bits to represent a number, easy it is to move the data around. Also faster.
+# Multiple GPU tensor cores perform operations at great speed (tera flops), but they are contraint by the memory bandwidth (speed at which the the bits are read from the memory). Because the data needs to be moved to the tensor cores, and if the memory bandwidth is slow, the tensor cores will be idle. In nutshell, even 60% of usage of tensor cores is great.
+# https://developer.nvidia.com/blog/programming-tensor-cores-cuda-9/
+# All our main operations are matrix multiplications, and tensor cores are great at matrix multiplications.
+# All linear layers are matrix multiplications, where GELU, LayerNorm, softmax are not very deep operations. Also if you see the biggest matrix multiplication is the 768 (embedding size) to 50257(vocab size) conversion at the top.
+# https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf
+optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4) # AdamW optimizer (fixes a bug in Adam).
 for i in range(50):
     x, y = train_loader.next_batch() # get the next batch
     x, y = x.to(device), y.to(device) # move to GPU
