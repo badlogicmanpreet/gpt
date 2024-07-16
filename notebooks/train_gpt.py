@@ -317,13 +317,18 @@ model.to(device) # move the model to the GPU on Cloudbox
 # All our main operations are matrix multiplications, and tensor cores are great at matrix multiplications.
 # All linear layers are matrix multiplications, where GELU, LayerNorm, softmax are not very deep operations. Also if you see the biggest matrix multiplication is the 768 (embedding size) to 50257(vocab size) conversion at the top.
 # https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf
+# Let talk a little bit about tensor float in the paper above. Tensor float is a new floating point representation,
+# when we run on the GPU, we run on the tensor cores, and tensor cores are designed to run on the tensor float format, meaning that
+# matrix multiplications is of format a * b + c, where a, b, c are 4x4 matrices. This is the tensor float format. This is a new format
+# where the floating point is not 32 bits but 23 bits e.g. [sign, 8 bit exponent (range), 14 bit mantissa(precision)], remaining bits from mantissa are
+# removed. Yes it does reduce the precision, but it is good enough for training. The tensor cores are designed to run on this format, and they are very fast (8x faster). 
 optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4) # AdamW optimizer (fixes a bug in Adam).
-for i in range(50):
+for i in range(2000):
     x, y = train_loader.next_batch() # get the next batch
     x, y = x.to(device), y.to(device) # move to GPU
     optimizer.zero_grad() # reset the gradients
     logits, loss = model(x, y) # forward pass
-    import code; code.interact(local=locals()) # drop into an interactive shell
+    # import code; code.interact(local=locals()) # drop into an interactive shell
     loss.backward() # backward pass
     optimizer.step() # update the weights
     print(f"step: {i}, loss: {loss.item()}") # loss is a scalar tensor, it is shipped from gpu to cpu (float), and printed
