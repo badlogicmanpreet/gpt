@@ -321,7 +321,7 @@ model.to(device) # move the model to the GPU on Cloudbox
 # when we run on the GPU, we run on the tensor cores, and tensor cores are designed to run on the tensor float format, meaning that
 # matrix multiplications is of format a * b + c, where a, b, c are 4x4 matrices. This is the tensor float format. This is a new format
 # where the floating point is not 32 bits but 23 bits e.g. [sign, 8 bit exponent (range), 14 bit mantissa(precision)], remaining bits from mantissa are
-# removed. Yes it does reduce the precision, but it is good enough for training. The tensor cores are designed to run on this format, and they are very fast (8x faster). 
+# removed. Yes it does reduce the precision, but it is good enough for training. The tensor cores are designed to run on this format, and they are very fast (8x faster).
 optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4) # AdamW optimizer (fixes a bug in Adam).
 for i in range(2000):
     x, y = train_loader.next_batch() # get the next batch
