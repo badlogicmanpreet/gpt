@@ -1,8 +1,11 @@
-# One Step At a Time
+# One Step at a Time 📚
 
-This document provides a beginner explanation for understanding and training GPT-2. I started by implementing a transformer decoder. You can visit [mini-autograd](https://github.com/badlogicmanpreet/mini-autograd) and [mini-models](https://github.com/badlogicmanpreet/mini-models) for my older work, and now I am slowly graduating to setting up, training, and using a Generative Pre-trained Transformer (GPT-2) model, starting with defining the model architecture, implementing the training loop, and generating text sequences. My learning rate is also 3e-4 because I need a steady caffeine drip! ☕📚✨
+This document provides a beginner explanation for understanding and training GPT-2. I started by implementing a transformer decoder. You can visit [mini-autograd](https://github.com/badlogicmanpreet/mini-autograd) and [mini-models](https://github.com/badlogicmanpreet/mini-models) for my older work, and now I am slowly graduating to setting up, training, and using a Generative Pre-trained Transformer (GPT-2) model, starting with defining the model architecture, implementing the training loop, and generating text sequences. My learning rate is also 3e-4 because I need a steady caffeine drip! ✨
 
-[Manpreet's GitHub repository](https://github.com/badlogicmanpreet/gpt)
+[Manpreet's GitHub repository](https://github.com/badlogicmanpreet/gpt) ☕
+
+[<p align="center">
+ <img src="images/gpt-2.png" width="150"/></p>](images/gpt-2.png)
 
 ## Table of Contents
 1. Introduction
@@ -351,7 +354,7 @@ Reference: [Programming Tensor Cores with CUDA 9](https://developer.nvidia.com/b
 
 This project draws inspiration from several key works in the field of deep learning and transformers, including the seminal paper "Attention is All You Need" by Vaswani et al. and Andrej Karpathy's contributions to neural networks.
 
-### Conclusion
+# Conclusion
 
 This document offers a fun-sized guide to kickstart your `GPT-2` training journey, explaining the model architecture, training loop, and text generation process. Follow along, and who knows—you might just become the next AI whisperer! 🚀🤖✨
 
