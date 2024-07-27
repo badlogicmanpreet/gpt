@@ -352,7 +352,7 @@ Reference: [Programming Tensor Cores with CUDA 9](https://developer.nvidia.com/b
 
 ### 6. Acknowledgements
 
-This project draws inspiration from several key works in the field of deep learning and transformers, including the seminal paper "Attention is All You Need" by Vaswani et al. and Andrej Karpathy's contributions to neural networks.
+This project draws inspiration from several key works in the field of deep learning and transformers, including the seminal paper "Attention is All You Need" by Vaswani et al. and `Andrej Karpathy's` contributions to neural networks.
 
 # Conclusion
 
