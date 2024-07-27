@@ -1,6 +1,6 @@
 # One Step At a Time
 
-This document provides a detailed explanation for understanding and training GPT. I started by implementing a transformer decoder and slowly graduating to setting up, training, and using a Generative Pre-trained Transformer (GPT2) model, starting with defining the model architecture, implementing the training loop, and generating text sequences.
+This document provides a beginner explanation for understanding and training GPT-2. I started by implementing a transformer decoder. You can visit [mini-autograd](https://github.com/badlogicmanpreet/mini-autograd) and [mini-models](https://github.com/badlogicmanpreet/mini-models) for my older work, and now I am slowly graduating to setting up, training, and using a Generative Pre-trained Transformer (GPT-2) model, starting with defining the model architecture, implementing the training loop, and generating text sequences. My learning rate is also 3e-4 because I need a steady caffeine drip! ☕📚✨
 
 [Manpreet's GitHub repository](https://github.com/badlogicmanpreet/gpt)
 
@@ -14,17 +14,17 @@ This document provides a detailed explanation for understanding and training GPT
 
 ## 1. Introduction
 
-The aim is to thoroughly understand how to train a GPT model from scratch. It leverages the PyTorch library and includes custom implementations of critical components like the attention mechanism and transformer blocks. Test on multiple chips like CPU, MPS and GPU is in progress.
+The aim is to thoroughly understand how to train a GPT-2 model from scratch. It leverages the PyTorch library and includes custom implementations of critical components like the attention mechanism and transformer blocks. Test on multiple chips like CPU, MPS and GPU is in progress.
 
 The Transformer architecture, introduced in the paper "Attention is All You Need" by Vaswani et al., laid the groundwork for models like GPT-2. Here are the key differences between the generic Transformer architecture and GPT-2:
 
 - **Attention Mechanism**: Both use self-attention mechanisms, but GPT-2 causally applies them to ensure tokens only attend to previous tokens in the sequence, maintaining the autoregressive property.
 - **Layer Normalization and Activation**: GPT-2 employs layer normalization before the multi-head attention and feed-forward layers (pre-normalization), whereas the original Transformer does it after these layers (post-normalization).
-- **Model Depth**: GPT-2 uses significantly more layers (up to 48 in GPT-2 XL) compared to the original Transformer, which typically uses 6 encoder and 6 decoder layers.
+- **Model Depth**: GPT-2 uses significantly more layers.
 
 ## 2. Model Architecture
 
-The core architecture of the GPT model is defined in several classes, including `GPT`, `Block`, and `CausalSelfAttention`.
+The core architecture of the GPT-2 model is defined in several classes, including `GPT`, `Block`, and `CausalSelfAttention`.
 
 #### `GPTConfig`
 
@@ -42,7 +42,7 @@ class GPTConfig:
 
 #### `CausalSelfAttention`
 
-The `CausalSelfAttention` class is a crucial component in the GPT model, implementing the self-attention mechanism. Upon initialization, it checks that the embedding dimension (`n_embd`) is divisible by the number of attention heads (`n_head`), ensuring a consistent split of dimensions across heads. The class defines linear transformations for key, query, and value projections (`c_attn`), as well as an output projection (`c_proj`). It registers a lower triangular matrix (`bias`) to enforce causality, ensuring that each position can only attend to previous positions, thus preventing information leakage from future tokens. 
+The `CausalSelfAttention` class is a crucial component in the GPT-2 model, implementing the self-attention mechanism. Upon initialization, it checks that the embedding dimension (`n_embd`) is divisible by the number of attention heads (`n_head`), ensuring a consistent split of dimensions across heads. The class defines linear transformations for key, query, and value projections (`c_attn`), as well as an output projection (`c_proj`). It registers a lower triangular matrix (`bias`) to enforce causality, ensuring that each position can only attend to previous positions, thus preventing information leakage from future tokens. 
 
 In the forward method, the input tensor `x` is processed to extract batch size (`B`), sequence length (`T`), and embedding dimensionality (`C`). The input is projected into query (`q`), key (`k`), and value (`v`) tensors. These tensors are then reshaped and transposed to facilitate parallel processing across heads. The attention mechanism computes the dot product of queries and keys, scales it, and applies a causal mask to maintain temporal order. The softmax function normalizes these attention scores, which are then used to weight the values. Finally, the output is recombined and projected back into the original embedding space. This mechanism allows the model to focus on relevant parts of the input sequence, enhancing its ability to understand context and generate coherent text.
 
@@ -97,7 +97,7 @@ class MLP(nn.Module):
 
 #### `Block`
 
-The `Block` class is a fundamental component in the GPT architecture, integrating self-attention and MLP (Multi-Layer Perceptron) modules with layer normalization and residual connections. Unlike the conventional transformer architecture where layer normalization follows the self-attention or MLP, GPT2 positions layer normalization at the input of each sub-block, ensuring a clean residual path. This design choice facilitates smooth gradient flow from the top layers down to the input/token layer, enhancing learning efficiency. The class initializes with two layer normalization layers (`ln_1` and `ln_2`), a `CausalSelfAttention` module for token interaction, and an `MLP` for token-wise transformations. In the forward method, the input tensor `x` undergoes layer normalization followed by self-attention, and the result is added back to `x` as a residual connection. This process is repeated with the MLP, ensuring that each token is updated independently and effectively. The combination of these elements allows the block to efficiently aggregate information across tokens and update their representations, forming a robust building block for the overall model.
+The `Block` class is a fundamental component in the GPT-2 architecture, integrating self-attention and MLP (Multi-Layer Perceptron) modules with layer normalization and residual connections. Unlike the conventional transformer architecture where layer normalization follows the self-attention or MLP, GPT-2 positions layer normalization at the input of each sub-block, ensuring a clean residual path. This design choice facilitates smooth gradient flow from the top layers down to the input/token layer, enhancing learning efficiency. The class initializes with two layer normalization layers (`ln_1` and `ln_2`), a `CausalSelfAttention` module for token interaction, and an `MLP` for token-wise transformations. In the forward method, the input tensor `x` undergoes layer normalization followed by self-attention, and the result is added back to `x` as a residual connection. This process is repeated with the MLP, ensuring that each token is updated independently and effectively. The combination of these elements allows the block to efficiently aggregate information across tokens and update their representations, forming a robust building block for the overall model.
 
 ```python
 class Block(nn.Module):
@@ -116,11 +116,11 @@ class Block(nn.Module):
 
 #### `GPT`
 
-The `GPT` class is the primary structure for the GPT model, combining multiple components to form a complete transformer network for text generation. It starts by initializing essential elements: token and position embeddings (`wte` and `wpe`), a stack of transformer blocks (`h`), final layer normalization (`ln_f`), and the output linear layer (`lm_head`). These modules are organized in a `ModuleDict` for flexible access and management. The embeddings map input indices to dense vectors, while the transformer blocks apply self-attention and MLP operations to these embeddings, progressively refining the representations.
+The `GPT` class is the primary structure for the GPT-2 model, combining multiple components to form a complete transformer network for text generation. It starts by initializing essential elements: token and position embeddings (`wte` and `wpe`), a stack of transformer blocks (`h`), final layer normalization (`ln_f`), and the output linear layer (`lm_head`). These modules are organized in a `ModuleDict` for flexible access and management. The embeddings map input indices to dense vectors, while the transformer blocks apply self-attention and MLP operations to these embeddings, progressively refining the representations.
 
 To ensure consistent and efficient learning, the class incorporates weight sharing between the token embeddings and the output layer, and initializes weights following the original GPT-2 model's methodology. During forward passes, the model processes input sequences by adding positional information to token embeddings and passing them through the transformer blocks. The final layer normalization and linear projection produce logits for the vocabulary, which can be used for text generation or computing the cross-entropy loss if targets are provided.
 
-Additionally, the class includes a `from_pretrained` method, allowing users to load pretrained weights from Hugging Face models. This involves mapping and aligning parameters from the Hugging Face model to the custom GPT model, ensuring compatibility and functionality. Overall, the `GPT` class encapsulates the architecture and operations needed to train and deploy a powerful language model.
+Additionally, the class includes a `from_pretrained` method, allowing users to load pretrained weights from Hugging Face models. This involves mapping and aligning parameters from the Hugging Face model to the custom GPT-2 model, ensuring compatibility and functionality. Overall, the `GPT` class encapsulates the architecture and operations needed to train and deploy a powerful language model.
 
 ```python
 class GPT(nn.Module):
@@ -259,7 +259,7 @@ class DataLoaderLite:
 
 ### 3. Training Loop
 
-The basic training loop is decribed for a GPT model using a custom data loader. First, it initializes a `DataLoaderLite` instance with a batch size (`B`) of 4 and a sequence length (`T`) of 32, which will supply the training data. Next, a GPT model is instantiated using the `GPTConfig` class and moved to the appropriate computational device (GPU or CPU) using the `model.to(device)` method.
+The basic training loop is decribed for a GPT-2 model using a custom data loader. First, it initializes a `DataLoaderLite` instance with a batch size (`B`) of 4 and a sequence length (`T`) of 32, which will supply the training data. Next, a GPT model is instantiated using the `GPTConfig` class and moved to the appropriate computational device (GPU or CPU) using the `model.to(device)` method.
 
 An `AdamW` optimizer is set up with the model parameters and a learning rate of 3e-4. The training loop runs for 2000 iterations, where in each iteration, the next batch of data is retrieved from the data loader and transferred to the device. The gradients are reset with `optimizer.zero_grad()`, and a forward pass through the model computes the logits and loss. The backward pass (`loss.backward()`) calculates the gradients, and `optimizer.step()` updates the model's weights. Finally, the loss for each step is printed, providing a measure of the model's performance during training. This loop efficiently trains the GPT model by iteratively processing batches of data, computing gradients, and updating weights.
 
@@ -280,7 +280,7 @@ for i in range(2000):
 
 ### 4. Text Generation
 
-The provided code snippet illustrates the process of generating text sequences using a trained GPT model. Initially, the random seed for both CPU and GPU computations is set to ensure reproducibility. The input tensor `x` of shape (B, T) represents the number of sequences (`B`) and the sequence length (`T`). The goal is to extend each sequence to a specified maximum length (`max_length`).
+The provided code snippet illustrates the process of generating text sequences using a trained GPT-2 model. Initially, the random seed for both CPU and GPU computations is set to ensure reproducibility. The input tensor `x` of shape (B, T) represents the number of sequences (`B`) and the sequence length (`T`). The goal is to extend each sequence to a specified maximum length (`max_length`).
 
 In a loop, the model performs a forward pass to obtain logits (predicted probabilities for each token) without computing gradients, as specified by `torch.no_grad()`. The logits tensor, initially of shape (B, T, vocab_size), is reduced to (B, vocab_size) by selecting the logits of the last token in the sequence. These logits are then converted to probabilities using the softmax function.
 
