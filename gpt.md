@@ -13,7 +13,8 @@ This document provides a beginner explanation for understanding and training GPT
 3. Training Loop
 4. Text Generation
 5. Loving the Floats
-6. Acknowledgements
+6. Model Visualization
+7. Acknowledgements
 
 ## 1. Introduction
 
@@ -350,7 +351,44 @@ Programming Tensor Cores with CUDA 9 enables developers to take advantage of mix
 
 Reference: [Programming Tensor Cores with CUDA 9](https://developer.nvidia.com/blog/programming-tensor-cores-cuda-9/)
 
-### 6. Acknowledgements
+### 6. Model Visualization
+
+#### 1. **Histogram of Logits**:
+
+<img src="images/logits_histograph_2k.png" width="500"/></p>
+
+This 3D-like chart is essentially a **histogram of logits** over time, likely across different epochs or training steps.
+
+- **X-axis**: Represents the range of **logit values** (these are the raw outputs from your model, before applying softmax). 
+- **Y-axis**: Likely represents **epochs or training steps**—you can see how the distribution of logits changes as training progresses.
+- **Z-axis (or height of the peaks)**: Represents the **frequency** of logits in that range at a specific epoch/step. For example, you may see more logits concentrated around certain values at different points in training.
+
+##### Observations:
+- The early parts of the training show **narrow distributions** of logits (left side of the plot), which can indicate low model confidence in predictions.
+- As training progresses (moving along the y-axis), the distribution starts to **spread out**, and logits begin covering a wider range of values. This suggests the model is becoming more confident and certain about its predictions, with logits spreading further from 0 (which corresponds to neutral predictions in many cases).
+- If the logits are concentrated more to the right over time, that indicates stronger confidence in predictions.
+
+This kind of plot helps to visualize how the model’s outputs are changing, with larger spreads of logits typically indicating more confident predictions, and more clustering around certain values indicating convergence in the learning process.
+
+#### 2. **Loss Graph**:
+
+<p align="left"><img src="images/loss_2k.png" width="800"/>
+
+This is a simple **training loss curve**, which shows how the loss function (e.g., cross-entropy, mean squared error, etc.) changes over the course of training epochs.
+
+- **X-axis**: Represents **training epochs** or steps.
+- **Y-axis**: Represents the **loss value** at each epoch.
+
+##### Observations:
+- In the early part of the graph (left side), we see a **rapid decrease** in the loss, which is typical in the initial stages of training. The model is learning quickly, reducing its prediction errors.
+- There is a **plateau and fluctuations** around the middle, where the loss value becomes more erratic. This could indicate a more difficult learning phase, perhaps because the model is fine-tuning its weights and the learning rate may be smaller.
+- Towards the end (right side), there is some **leveling off of the loss**. If the loss remains relatively flat, it may mean the model is close to converging, but the fluctuations suggest the model could be under- or overfitting, depending on the validation loss behavior (not shown here).
+
+#### Key Insights:
+- The **logit histogram** shows your model's confidence growing over time, as indicated by the spread of logits. The wider range means the model is assigning more diverse (and possibly more confident) scores to its predictions.
+- The **loss curve** generally follows a decreasing trend, but the fluctuations suggest that there could be further improvements with techniques like adjusting the learning rate, using learning rate schedules, or regularization to stabilize training.
+
+### 7. Acknowledgements
 
 This project draws inspiration from several key works in the field of deep learning and transformers, including the seminal paper "Attention is All You Need" by Vaswani et al. and `Andrej Karpathy's` contributions to neural networks.
 
