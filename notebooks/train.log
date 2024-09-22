@@ -1,0 +1,295 @@
+2024-09-22 09:09:47,897 - DEBUG - using device: mps...
+2024-09-22 09:09:47,897 - DEBUG - initializing DataLoaderLite with B=4, T=32
+2024-09-22 09:09:48,384 - DEBUG - loaded 338025 tokens
+2024-09-22 09:09:48,384 - DEBUG - 1 epoch = 2640 batches
+2024-09-22 09:09:49,107 - DEBUG - model initialized...
+2024-09-22 09:09:49,108 - DEBUG - transformer: ModuleDict(
+  (wte): Embedding(50257, 768)
+  (wpe): Embedding(1024, 768)
+  (h): ModuleList(
+    (0-11): 12 x Block(
+      (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (attn): CausalSelfAttention(
+        (c_attn): Linear(in_features=768, out_features=2304, bias=True)
+        (c_proj): Linear(in_features=768, out_features=768, bias=True)
+      )
+      (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (mlp): MLP(
+        (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+        (gelu): GELU(approximate='tanh')
+        (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+      )
+    )
+  )
+  (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+)
+2024-09-22 09:09:49,108 - DEBUG - lm_head: Linear(in_features=768, out_features=50257, bias=False)
+2024-09-22 09:09:49,117 - DEBUG - weight sharing scheme applied...
+2024-09-22 09:09:49,117 - DEBUG - initializing embedding layer: Embedding(50257, 768)
+2024-09-22 09:09:49,252 - DEBUG - initializing embedding layer: Embedding(1024, 768)
+2024-09-22 09:09:49,254 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,260 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,262 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,270 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,278 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,284 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,286 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,294 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,302 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,308 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,310 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,318 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,326 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,332 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,334 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,343 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,351 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,357 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,359 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,367 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,375 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,381 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,383 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,391 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,399 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,405 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,407 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,415 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,423 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,430 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,432 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,440 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,448 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,454 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,456 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,464 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,472 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,478 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,480 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,488 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,496 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,502 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,504 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,512 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,520 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=2304, bias=True)
+2024-09-22 09:09:49,526 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=768, bias=True)
+2024-09-22 09:09:49,528 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=3072, bias=True)
+2024-09-22 09:09:49,536 - DEBUG - initializing linear layer: Linear(in_features=3072, out_features=768, bias=True)
+2024-09-22 09:09:49,544 - DEBUG - initializing linear layer: Linear(in_features=768, out_features=50257, bias=False)
+2024-09-22 09:09:49,844 - DEBUG - model initialized...
+2024-09-22 09:09:49,844 - DEBUG - model: GPTConfig(block_size=1024, vocab_size=50257, n_layer=12, n_head=12, n_embd=768)
+2024-09-22 09:09:50,531 - DEBUG - optimizer initialized...
+2024-09-22 09:09:50,531 - DEBUG - optimizer: AdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.01
+)
+2024-09-22 09:09:50,531 - DEBUG - step: 0
+2024-09-22 09:09:50,531 - DEBUG - next_batch: x=torch.Size([4, 32]), y=torch.Size([4, 32])
+2024-09-22 09:09:50,532 - DEBUG - next_batch: x=tensor([[ 5962, 22307,    25,   198,  8421,   356,  5120,   597,  2252,    11,
+          3285,   502,  2740,    13,   198,   198,  3237,    25,   198,  5248,
+           461,    11,  2740,    13,   198,   198,  5962, 22307,    25,   198,
+          1639,   389],
+        [  477, 12939,  2138,   284,  4656,   621,   284,  1145,   680,    30,
+           198,   198,  3237,    25,   198,  4965,  5634,    13, 12939,    13,
+           198,   198,  5962, 22307,    25,   198,  5962,    11,   345,   760,
+           327,  1872],
+        [  385,  1526, 28599,   318,  4039,  4472,   284,   262,   661,    13,
+           198,   198,  3237,    25,   198,  1135,   760,   470,    11,   356,
+           760,   470,    13,   198,   198,  5962, 22307,    25,   198,  5756,
+           514,  1494],
+        [  683,    11,   290,   356,  1183,   423, 11676,   379,   674,   898,
+          2756,    13,   198,  3792,   470,   257, 15593,    30,   198,   198,
+          3237,    25,   198,  2949,   517,  3375,   319,   470,    26,  1309,
+           340,   307]]), y=tensor([[22307,    25,   198,  8421,   356,  5120,   597,  2252,    11,  3285,
+           502,  2740,    13,   198,   198,  3237,    25,   198,  5248,   461,
+            11,  2740,    13,   198,   198,  5962, 22307,    25,   198,  1639,
+           389,   477],
+        [12939,  2138,   284,  4656,   621,   284,  1145,   680,    30,   198,
+           198,  3237,    25,   198,  4965,  5634,    13, 12939,    13,   198,
+           198,  5962, 22307,    25,   198,  5962,    11,   345,   760,   327,
+          1872,   385],
+        [ 1526, 28599,   318,  4039,  4472,   284,   262,   661,    13,   198,
+           198,  3237,    25,   198,  1135,   760,   470,    11,   356,   760,
+           470,    13,   198,   198,  5962, 22307,    25,   198,  5756,   514,
+          1494,   683],
+        [   11,   290,   356,  1183,   423, 11676,   379,   674,   898,  2756,
+            13,   198,  3792,   470,   257, 15593,    30,   198,   198,  3237,
+            25,   198,  2949,   517,  3375,   319,   470,    26,  1309,   340,
+           307,  1760]])
+2024-09-22 09:09:50,533 - DEBUG - training model...
+2024-09-22 09:09:50,606 - DEBUG - pos: tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17,
+        18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+       device='mps:0')
+2024-09-22 09:09:50,618 - DEBUG - pos_emb size: torch.Size([32, 768])
+2024-09-22 09:09:50,618 - DEBUG - tok_emb size: torch.Size([4, 32, 768])
+2024-09-22 09:09:50,745 - DEBUG - pos_emb: tensor([[-0.0042, -0.0228, -0.0307,  ...,  0.0207,  0.0383, -0.0419],
+        [-0.0062, -0.0146,  0.0124,  ...,  0.0039, -0.0422,  0.0131],
+        [-0.0098,  0.0320,  0.0123,  ...,  0.0227, -0.0069,  0.0073],
+        ...,
+        [-0.0129,  0.0470, -0.0109,  ...,  0.0030,  0.0097,  0.0005],
+        [-0.0001,  0.0177,  0.0081,  ...,  0.0363, -0.0171,  0.0082],
+        [ 0.0299, -0.0040, -0.0384,  ..., -0.0102, -0.0093, -0.0529]],
+       device='mps:0', grad_fn=<EmbeddingBackward0>)
+2024-09-22 09:09:50,817 - DEBUG - tok_emb: tensor([[[ 0.0290,  0.0146, -0.0392,  ...,  0.0047, -0.0207, -0.0330],
+         [-0.0359, -0.0345, -0.0231,  ...,  0.0325,  0.0311,  0.0097],
+         [ 0.0087, -0.0094, -0.0315,  ..., -0.0129, -0.0356,  0.0100],
+         ...,
+         [ 0.0111,  0.0005, -0.0112,  ...,  0.0159, -0.0048,  0.0068],
+         [-0.0013, -0.0135,  0.0054,  ..., -0.0308, -0.0121, -0.0167],
+         [-0.0040, -0.0053,  0.0015,  ..., -0.0266, -0.0266, -0.0135]],
+
+        [[ 0.0275, -0.0171,  0.0123,  ..., -0.0020,  0.0062,  0.0333],
+         [-0.0126, -0.0015,  0.0018,  ..., -0.0145,  0.0181, -0.0081],
+         [ 0.0111, -0.0034, -0.0325,  ...,  0.0248, -0.0221,  0.0031],
+         ...,
+         [-0.0091, -0.0136, -0.0080,  ..., -0.0047, -0.0303, -0.0144],
+         [-0.0127,  0.0257,  0.0285,  ..., -0.0081, -0.0141, -0.0219],
+         [ 0.0252, -0.0203,  0.0090,  ..., -0.0345, -0.0061,  0.0085]],
+
+        [[-0.0224, -0.0044,  0.0052,  ...,  0.0079,  0.0391, -0.0049],
+         [ 0.0355,  0.0176, -0.0063,  ..., -0.0308,  0.0344, -0.0093],
+         [ 0.0190,  0.0111, -0.0120,  ..., -0.0141, -0.0458, -0.0023],
+         ...,
+         [ 0.0131, -0.0053, -0.0090,  ...,  0.0194, -0.0004,  0.0247],
+         [-0.0488,  0.0327, -0.0074,  ...,  0.0093, -0.0369,  0.0342],
+         [-0.0235,  0.0123, -0.0260,  ...,  0.0374,  0.0067,  0.0208]],
+
+        [[ 0.0182, -0.0039, -0.0099,  ...,  0.0053, -0.0166,  0.0090],
+         [-0.0346, -0.0071, -0.0192,  ..., -0.0028, -0.0096, -0.0170],
+         [ 0.0092,  0.0025, -0.0003,  ...,  0.0041,  0.0200, -0.0229],
+         ...,
+         [-0.0051, -0.0387,  0.0325,  ...,  0.0480, -0.0142,  0.0271],
+         [ 0.0112,  0.0068, -0.0044,  ..., -0.0187, -0.0139,  0.0353],
+         [-0.0222,  0.0100, -0.0086,  ...,  0.0199, -0.0454,  0.0091]]],
+       device='mps:0', grad_fn=<EmbeddingBackward0>)
+2024-09-22 09:09:50,823 - DEBUG - x size (combined pos+tok): torch.Size([4, 32, 768])
+2024-09-22 09:09:50,852 - DEBUG - x: tensor([[[ 0.0248, -0.0082, -0.0699,  ...,  0.0253,  0.0176, -0.0749],
+         [-0.0421, -0.0490, -0.0107,  ...,  0.0364, -0.0111,  0.0228],
+         [-0.0011,  0.0226, -0.0192,  ...,  0.0098, -0.0425,  0.0173],
+         ...,
+         [-0.0019,  0.0474, -0.0221,  ...,  0.0189,  0.0049,  0.0073],
+         [-0.0014,  0.0041,  0.0136,  ...,  0.0056, -0.0292, -0.0085],
+         [ 0.0260, -0.0093, -0.0369,  ..., -0.0368, -0.0359, -0.0664]],
+
+        [[ 0.0233, -0.0399, -0.0184,  ...,  0.0186,  0.0445, -0.0086],
+         [-0.0188, -0.0161,  0.0142,  ..., -0.0106, -0.0241,  0.0050],
+         [ 0.0013,  0.0287, -0.0202,  ...,  0.0475, -0.0290,  0.0104],
+         ...,
+         [-0.0220,  0.0334, -0.0189,  ..., -0.0017, -0.0206, -0.0140],
+         [-0.0128,  0.0434,  0.0367,  ...,  0.0282, -0.0312, -0.0137],
+         [ 0.0551, -0.0244, -0.0293,  ..., -0.0446, -0.0153, -0.0445]],
+
+        [[-0.0266, -0.0272, -0.0255,  ...,  0.0286,  0.0775, -0.0468],
+         [ 0.0293,  0.0031,  0.0061,  ..., -0.0269, -0.0078,  0.0038],
+         [ 0.0092,  0.0431,  0.0003,  ...,  0.0085, -0.0527,  0.0050],
+         ...,
+         [ 0.0002,  0.0417, -0.0199,  ...,  0.0224,  0.0093,  0.0252],
+         [-0.0490,  0.0504,  0.0007,  ...,  0.0457, -0.0540,  0.0424],
+         [ 0.0064,  0.0083, -0.0644,  ...,  0.0272, -0.0026, -0.0322]],
+
+        [[ 0.0140, -0.0267, -0.0406,  ...,  0.0260,  0.0218, -0.0329],
+         [-0.0408, -0.0217, -0.0068,  ...,  0.0010, -0.0519, -0.0039],
+         [-0.0006,  0.0345,  0.0120,  ...,  0.0267,  0.0131, -0.0156],
+         ...,
+         [-0.0180,  0.0083,  0.0216,  ...,  0.0510, -0.0045,  0.0275],
+         [ 0.0111,  0.0245,  0.0037,  ...,  0.0176, -0.0310,  0.0435],
+         [ 0.0078,  0.0059, -0.0470,  ...,  0.0097, -0.0547, -0.0439]]],
+       device='mps:0', grad_fn=<AddBackward0>)
+2024-09-22 09:09:50,852 - DEBUG - forwarding the block of transformer...
+2024-09-22 09:09:50,852 - DEBUG - block: Block(
+  (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+  (attn): CausalSelfAttention(
+    (c_attn): Linear(in_features=768, out_features=2304, bias=True)
+    (c_proj): Linear(in_features=768, out_features=768, bias=True)
+  )
+  (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+  (mlp): MLP(
+    (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+    (gelu): GELU(approximate='tanh')
+    (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+  )
+)
+2024-09-22 09:09:50,852 - DEBUG - block (forward section): Started... Block
+2024-09-22 09:09:50,852 - DEBUG - block (forward section): x size: torch.Size([4, 32, 768])
+2024-09-22 09:09:50,874 - DEBUG - causal self attention (forward section): x size: torch.Size([4, 32, 768])
+2024-09-22 09:09:50,875 - DEBUG - causal self attention (forward section): B=4, T=32, C=768
+2024-09-22 09:09:51,126 - DEBUG - causal self attention (forward section): qkv size - tensor of shape (B, T, 3 * C)
+2024-09-22 09:09:51,126 - DEBUG - causal self attention (forward section): qkv size: torch.Size([4, 32, 2304])
+2024-09-22 09:09:51,126 - DEBUG - causal self attention (forward section): q size: torch.Size([4, 32, 768]), k size: torch.Size([4, 32, 768]), v size: torch.Size([4, 32, 768])
+2024-09-22 09:09:51,126 - DEBUG - causal self attention (forward section) after view and transpose, operations performed for all batches and all heads in parallel
+2024-09-22 09:09:51,126 - DEBUG - causal self attention (forward section): q size: torch.Size([4, 12, 32, 64]), k size: torch.Size([4, 12, 32, 64]), v size: torch.Size([4, 12, 32, 64])
+2024-09-22 09:09:51,126 - DEBUG - At this point, at each position, for each token we have a key and a query. All done in parallel. None is yet communicating with each other. Lets comminicate
+2024-09-22 09:09:51,126 - DEBUG - across batch dimension, we are not communicating, we are communicating only within the batch dimension
+2024-09-22 09:09:51,126 - DEBUG - in the attention formula, we also have to divide by sqrt(d_k). d_k is the head size, also called scaled attention
+2024-09-22 09:09:51,137 - DEBUG - causal self attention (forward section): attention calculation (QK^T)
+2024-09-22 09:09:51,137 - DEBUG - for every row in B, the effinities are given by a square matrix T x T
+2024-09-22 09:09:51,137 - DEBUG - causal self attention (forward section): att size: torch.Size([4, 12, 32, 32])
+2024-09-22 09:09:51,137 - DEBUG - causal self attention (forward section): take the first row of batch, first head, 32 tokens, each token respresented with 32 size
+2024-09-22 09:09:51,149 - DEBUG - causal self attention (forward section): att: tensor([[ 0.0687,  0.0359, -0.1292,  ..., -0.2762, -0.5339,  0.1012],
+        [-0.1081, -0.6855,  0.2462,  ..., -0.1026, -0.6989,  0.0034],
+        [ 0.0515,  0.0092,  0.1565,  ..., -0.1955, -0.2274,  0.2077],
+        ...,
+        [-0.5951,  0.4932, -0.7824,  ...,  0.4561, -0.0204, -0.3454],
+        [ 0.1854, -0.1032,  0.1710,  ..., -0.3412,  0.0183,  0.5319],
+        [-0.3216, -0.3668, -0.2943,  ..., -0.2065, -0.1093, -0.1327]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,162 - DEBUG - causal self attention (forward section): att masked fill
+2024-09-22 09:09:51,187 - DEBUG - causal self attention (forward section): att: tensor([[ 0.0687,    -inf,    -inf,  ...,    -inf,    -inf,    -inf],
+        [-0.1081, -0.6855,    -inf,  ...,    -inf,    -inf,    -inf],
+        [ 0.0515,  0.0092,  0.1565,  ...,    -inf,    -inf,    -inf],
+        ...,
+        [-0.5951,  0.4932, -0.7824,  ...,  0.4561,    -inf,    -inf],
+        [ 0.1854, -0.1032,  0.1710,  ..., -0.3412,  0.0183,    -inf],
+        [-0.3216, -0.3668, -0.2943,  ..., -0.2065, -0.1093, -0.1327]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,198 - DEBUG - causal self attention (forward section): att softmax
+2024-09-22 09:09:51,198 - DEBUG - attention matrix below is for first row in batch, first head, 32 tokens, each token respresented with 32 size, the first row here shows 1.000 which means that its effinity is 1 with itself, and 0 with all other tokens, this is because of the masking, we are not allowing the token to look into the future, the token can only look at itself and the tokens before it, not after it, if you look at second row you will see that the token can look at itself and the token before it, if you now go to last row, you will see that the token can look at itself and all the tokens before it, the attention scores will clearly tell how much the effinities are between the tokens
+2024-09-22 09:09:51,208 - DEBUG - causal self attention (forward section): att: tensor([[1.0000, 0.0000, 0.0000,  ..., 0.0000, 0.0000, 0.0000],
+        [0.6405, 0.3595, 0.0000,  ..., 0.0000, 0.0000, 0.0000],
+        [0.3258, 0.3123, 0.3619,  ..., 0.0000, 0.0000, 0.0000],
+        ...,
+        [0.0161, 0.0477, 0.0133,  ..., 0.0459, 0.0000, 0.0000],
+        [0.0371, 0.0278, 0.0366,  ..., 0.0219, 0.0314, 0.0000],
+        [0.0247, 0.0236, 0.0253,  ..., 0.0277, 0.0305, 0.0298]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,208 - DEBUG - 1. at the end we dont aggregate with x exactly, but with value v. 2. x is the private information of the token, v is more like a public information of the token 3. i am 5th token, my original identity is kept in x,  4. v instead has, for a single head, this is what i am interested in, here is what i have, if u find me inetresting here is what i will communicate to you
+2024-09-22 09:09:51,212 - DEBUG - causal self attention (forward section): y size (att @ v): torch.Size([4, 12, 32, 64])
+2024-09-22 09:09:51,223 - DEBUG - causal self attention (forward section): y: tensor([[-0.8006,  0.2255,  0.6244,  ..., -0.2390,  0.2561,  0.0404],
+        [-0.4041,  0.3478,  0.4064,  ...,  0.0331,  0.3726, -0.1333],
+        [-0.0975,  0.6583,  0.1811,  ...,  0.3025, -0.3520,  0.3464],
+        ...,
+        [ 0.0385,  0.0434,  0.0634,  ..., -0.1697, -0.0897, -0.1503],
+        [ 0.0047,  0.0034,  0.0490,  ..., -0.1451, -0.1415, -0.1087],
+        [ 0.0852,  0.0240,  0.0858,  ..., -0.1406, -0.1560, -0.1066]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,223 - DEBUG - causal self attention (forward section): y size (reassamble all head outputs): torch.Size([4, 32, 768])
+2024-09-22 09:09:51,233 - DEBUG - causal self attention (forward section): y: tensor([[-0.8006,  0.2255,  0.6244,  ..., -0.0789,  0.1811, -0.1256],
+        [-0.4041,  0.3478,  0.4064,  ...,  0.1395,  0.2175, -0.3862],
+        [-0.0975,  0.6583,  0.1811,  ..., -0.0636, -0.0311, -0.3972],
+        ...,
+        [ 0.0385,  0.0434,  0.0634,  ..., -0.2539, -0.0924,  0.1116],
+        [ 0.0047,  0.0034,  0.0490,  ..., -0.1992, -0.0297, -0.0092],
+        [ 0.0852,  0.0240,  0.0858,  ..., -0.3062,  0.0036,  0.0773]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,239 - DEBUG - causal self attention (forward section): y size (final projection): torch.Size([4, 32, 768])
+2024-09-22 09:09:51,249 - DEBUG - causal self attention (forward section): y: tensor([[-0.2944, -0.0851, -0.0934,  ...,  0.3482,  0.2543,  0.0489],
+        [-0.2549, -0.2276,  0.0006,  ...,  0.1239,  0.1254, -0.0353],
+        [-0.1047, -0.1537,  0.1741,  ...,  0.1440, -0.0690, -0.0321],
+        ...,
+        [-0.0468, -0.0711,  0.0077,  ...,  0.0811, -0.0287,  0.0278],
+        [-0.0602, -0.0603, -0.0153,  ...,  0.0904,  0.0209,  0.0204],
+        [-0.0689, -0.0793, -0.0024,  ...,  0.0554, -0.0017,  0.0406]],
+       device='mps:0', grad_fn=<SliceBackward0>)
+2024-09-22 09:09:51,253 - DEBUG - mlp (forward section): x size: torch.Size([4, 32, 768])
+2024-09-22 09:09:51,254 - DEBUG - mlp (forward section): MLP is a simple feed forward network with GELU activation
+2024-09-22 09:09:51,254 - DEBUG - mlp (forward section): GELU is a smooth version of ReLU, its tail end is not straight line like ReLU, but a curve, this helps in better gradient flow and learning.
+2024-09-22 09:09:51,273 - DEBUG - block (forward section): Ended... Block
