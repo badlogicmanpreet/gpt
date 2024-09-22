@@ -14,7 +14,7 @@ import math
 class CausalSelfAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
-        assert config.n_embd % config.n_head == 0
+        assert config.n_embd % config.n_head == 0 # TODO: study this in detail
         # key, query, value projections for all heads, in a batch
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
         # output projection
@@ -86,7 +86,7 @@ class MLP(nn.Module):
 class Block(nn.Module):
     # Block is always the combination of self attention and MLP
     # along with layer normalization and residual connections
-    # ***Remember that in normal transforer architecture, the layer normalization is
+    # ***Remember that in normal transformer architecture, the layer normalization is
     # after the self attention or MLP and has layer normalization in its residual path,
     # but in GPT2 the layer normalization is moved to the input of each sub-block i.e.
     # before the self attention or MLP and residual path is clear.
@@ -133,7 +133,7 @@ class GPT(nn.Module):
         # ln_f is the final layer normalization before the output layer
         # lm_head is the output layer
         # moduledict can be indexed like a dictionary e.g. self.transformer['wte']
-        # modulelist can be indexed like a list e.g. self.transformer[0]
+        # modulelist can be indexed like a list e.g. self.transformer.h.0 or self.transformer.h[0]
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size, config.n_embd),
             wpe = nn.Embedding(config.block_size, config.n_embd),
@@ -154,7 +154,7 @@ class GPT(nn.Module):
         if isinstance(module, nn.Linear): # initialize linear layers
             std = 0.02
             # GPT_SCALE_UNIT is a custom attribute, added as a flag, if you see, it is added both to attn and mlp. These both have
-            # the residual pathways who's std need to be scled down. Note: 2* is because of the two residual pathways.
+            # the residual pathways who's std need to be scaled down. Note: 2* is because of the two residual pathways.
             if hasattr(module, 'GPT_SCALE_UNIT'):
                 std *= (2 * self.config.n_layer) ** -0.5 # scale by the number of layers (scale down the std)
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02) 
