@@ -205,15 +205,7 @@ class GPT(nn.Module):
         
         x = tok_emb + pos_emb # combine the token and position embeddings
         # forward the block of transformer
-        cnt = 0
         for block in self.transformer.h:
-            if cnt == 0:
-                #logger.debug(f"block: {block}")
-                print(f"block: {block}")
-            else:
-                #logger.disabled = True
-                print(f"block: {block}")
-            cnt += 1
             x = block(x)
             #import sys; sys.exit(0)
         # forward the final layer normalization and the linear layer
@@ -309,6 +301,7 @@ import os
 def load_tokens(file):
     # load the tokens from the file
     npt = np.load(file)
+    npt = npt.astype(np.int32)
     ptt = torch.tensor(npt, dtype=torch.long)
     return ptt
 
@@ -556,7 +549,7 @@ for step in range(max_steps):
             for _ in range(val_loss_steps):
                 x, y = val_loader.next_batch()
                 x, y = x.to(device), y.to(device)
-                with torch.autocast( device_type==device_type, dtype=torch.bfloat16):
+                with torch.autocast(device_type=device_type, dtype=torch.bfloat16):
                     logits, loss = model(x, y)
                 loss = loss / val_loss_steps
                 val_loss_accum += loss.detach()
@@ -568,7 +561,7 @@ for step in range(max_steps):
                 f.write(f"step: {step} | val loss: {val_loss_accum.item():.4f}\n")
             if step > 0 and (step % 5000 == 0 or last_step):
                 # write out a checkpoint
-                checkpoint_path = os.path.join(log_dir, f"model_{step:.05d}.pt")
+                checkpoint_path = os.path.join(log_dir, f"model_{step:05d}.pt")
                 checkpoint = {
                     'model': raw_model.state_dict(),
                     'config': raw_model.config,
