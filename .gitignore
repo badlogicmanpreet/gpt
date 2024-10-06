@@ -1,3 +1,5 @@
+checkpoints/model_19072.pt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
