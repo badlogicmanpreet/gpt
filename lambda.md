@@ -1,5 +1,7 @@
 ## Setup LambdaLabs
 
+export PATH=/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH
+
 Host 152.69.203.83
   HostName 152.69.203.83
   User ubuntu
