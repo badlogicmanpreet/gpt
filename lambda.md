@@ -1,5 +1,11 @@
 ## Setup LambdaLabs
 
+matrices
+gaussian processes
+ditributions
+sampling
+
+
 export PATH=/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH
 
 Host 152.69.203.83
@@ -6338,3 +6344,6 @@ rank 3 sample 2: Hello, I'm a Manpreet, and you have some data in your head. Whe
 rank 3 sample 3: Hello, I'm a Manpreet, and have a nice day. And thank you. And it was really good. You just don't put the same
 step: 19072 | loss: 3.045321 | lr: 6.0000e-05 | norm: 0.2866, dt: 12908.25ms, tok/sec: 40616.51
 ubuntu@164-152-26-183:~/msgpt$ 
+
+
+step: 38145 | loss: 2.997005 | lr: 6.0000e-05 | norm: 0.4810, dt: 18603.15ms, tok/sec: 28182.75
