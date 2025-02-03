@@ -113,7 +113,7 @@ class GPT(nn.Module):
 
 
 model = GPT(GPTConfig(vocab_size=50304))
-checkpoint = torch.load('checkpoints/model_19072.pt', map_location=torch.device('cpu'))
+checkpoint = torch.load('checkpoints/model_57218.pt', map_location=torch.device('cpu'))
 state_dict = checkpoint['model']
 model.load_state_dict(state_dict)
 model.eval() 

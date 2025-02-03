@@ -457,11 +457,14 @@ def model_size(model):
     model_size_in_gb = model_size_in_bytes / (1024 ** 3)
     print(f"Model size: {model_size_in_gb:.2f} GB")
 
+def count_parameters(model):
+    print(f"No. of model Params: {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
 
 # create model
 model = GPT(GPTConfig(vocab_size=50304)) # 124M (50304 is the padded vocab size, beautiful number)
 if master_process:
     model_size(model)
+    count_parameters(model)
 model.to(device) # move the model to the GPU on Cloudbox
 
 # compile the model, read the pytorch documentation, it is a good practice to compile the model, it will optimize the model for the given device.
@@ -485,7 +488,7 @@ raw_model = model.module if ddp else model # if DDP, we need to access the under
 max_lr = 6e-4 # refer the doc
 min_lr = max_lr * 0.1
 warmup_steps = 715 # 375e6/2**19, 375 million tokens, 2**19 tokens per batch (375 is from the gpt3 paper) 
-max_steps = 19073 * 2 # 10e9/2**19, 10 billion tokens (fineweb edu data size), 2**19 tokens per batch
+max_steps = 19073 * 3 # 10e9/2**19, 10 billion tokens (fineweb edu data size), 2**19 tokens per batch
 # Warmup is used to gradually increase the learning rate from a very small value (e.g., 0) to the target maximum learning rate (max_lr) over a certain number of steps (warmup_steps). 
 # It is a crucial step in modern training, especially for large-scale deep learning models like transformers
 # Warmup phase - Starts at 0. Gradually increases linearly until it reaches max_lr at the end of the warmup.
